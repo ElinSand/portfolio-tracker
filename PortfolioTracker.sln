@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35222.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioTracker.API", "PortfolioTracker.API\PortfolioTracker.API.csproj", "{565CB27C-77C6-4CA3-8A73-809444A9B5B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioTracker.Tests", "PortfolioTracker.Tests\PortfolioTracker.Tests.csproj", "{6211FC5D-277B-4DAB-B6D8-15D43B36034A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{565CB27C-77C6-4CA3-8A73-809444A9B5B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{565CB27C-77C6-4CA3-8A73-809444A9B5B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{565CB27C-77C6-4CA3-8A73-809444A9B5B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{565CB27C-77C6-4CA3-8A73-809444A9B5B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6211FC5D-277B-4DAB-B6D8-15D43B36034A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6211FC5D-277B-4DAB-B6D8-15D43B36034A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6211FC5D-277B-4DAB-B6D8-15D43B36034A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6211FC5D-277B-4DAB-B6D8-15D43B36034A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B2115162-7FB8-45B0-BCDD-89D9A5166452}
+	EndGlobalSection
+EndGlobal
