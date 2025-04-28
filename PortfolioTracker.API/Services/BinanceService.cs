@@ -10,13 +10,8 @@ using System.Globalization;
 
 namespace PortfolioTracker.API.Services
 {
-    public interface IBinanceService
-    {
-        Task<decimal?> GetCryptoPrice(string symbol);
-        Task<List<string>> GetAvailableAssetsAsync();
-        Task<List<AssetPriceDto>> GetAllAssetPricesAsync(string? sort = null);
-    }
-    public class BinanceService //: IBinanceService
+   
+    public class BinanceService : IBinanceService
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<BinanceService> _logger;
@@ -117,10 +112,10 @@ namespace PortfolioTracker.API.Services
 
 
                 //Testa senare att få sortering att funka.
-                if (sort == "asc")
-                    prices = prices.OrderBy(p => p.Price).ToList();
-                else if (sort == "desc")
-                    prices = prices.OrderByDescending(p => p.Price).ToList();
+                //if (sort == "asc")
+                //    prices = prices.OrderBy(p => p.Price).ToList();
+                //else if (sort == "desc")
+                //    prices = prices.OrderByDescending(p => p.Price).ToList();
 
                 return prices;
             }
