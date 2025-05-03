@@ -1,0 +1,71 @@
+﻿@page "/Portfolio"
+@model PortfolioTracker.Frontend.Pages.Portfolio.PortfolioModel
+@{
+}
+
+<h1>Min Portfölj</h1>
+
+<h3>Saldo: @Model.Balance.ToString("C")</h3>
+<h3>Portföljvärde: @Model.PortfolioValue.ToString("C")</h3>
+
+<h2>Innehav</h2>
+@if (Model.Holdings.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Antal</th>
+                <th>Aktuellt pris</th>
+                <th>Totalt värde</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var holding in Model.Holdings)
+        {
+            <tr>
+                <td>@holding.Symbol</td>
+                <td>@holding.Quantity</td>
+                <td>@holding.CurrentPrice.ToString("C")</td>
+                <td>@holding.TotalValue.ToString("C")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Inga innehav ännu.</p>
+}
+
+<h2>Transaktioner</h2>
+@if (Model.Transactions.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Typ</th>
+                <th>Symbol</th>
+                <th>Antal</th>
+                <th>Pris</th>
+                <th>Tidpunkt</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var transaction in Model.Transactions)
+        {
+            <tr>
+                <td>@transaction.Type</td>
+                <td>@transaction.Symbol</td>
+                <td>@transaction.Quantity</td>
+                <td>@transaction.PriceAtTransaction.ToString("C")</td>
+                <td>@transaction.Timestamp.ToLocalTime()</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Inga transaktioner ännu.</p>
+}

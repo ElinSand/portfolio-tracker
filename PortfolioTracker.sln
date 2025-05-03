@@ -5,7 +5,9 @@ VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioTracker.API", "PortfolioTracker.API\PortfolioTracker.API.csproj", "{565CB27C-77C6-4CA3-8A73-809444A9B5B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioTracker.Tests", "PortfolioTracker.Tests\PortfolioTracker.Tests.csproj", "{6211FC5D-277B-4DAB-B6D8-15D43B36034A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioTracker.Tests", "PortfolioTracker.Tests\PortfolioTracker.Tests.csproj", "{6211FC5D-277B-4DAB-B6D8-15D43B36034A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioTracker.Frontend", "PortfolioTracker.Frontend\PortfolioTracker.Frontend.csproj", "{8F3AD411-3BB9-4498-A5D2-99E119A5DFE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{6211FC5D-277B-4DAB-B6D8-15D43B36034A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6211FC5D-277B-4DAB-B6D8-15D43B36034A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6211FC5D-277B-4DAB-B6D8-15D43B36034A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F3AD411-3BB9-4498-A5D2-99E119A5DFE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F3AD411-3BB9-4498-A5D2-99E119A5DFE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F3AD411-3BB9-4498-A5D2-99E119A5DFE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F3AD411-3BB9-4498-A5D2-99E119A5DFE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

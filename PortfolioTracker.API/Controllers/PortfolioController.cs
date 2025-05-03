@@ -361,15 +361,15 @@ namespace PortfolioTracker.API.Controllers
     // DTO för köp/sälj
     public class TradeModel
     {
-        [Required(ErrorMessage = "Symbol is required")]
-        [RegularExpression("^[A-Z0-9]+$", ErrorMessage = "Symbol must be uppercase letters and numbers only")]
-        public string Symbol { get; set; }
-
-        [Range(0.0001, double.MaxValue, ErrorMessage = "Quantity must be greater than zero")]
-        public decimal Quantity { get; set; }
-
+        //[Required(ErrorMessage = "Symbol is required")]
+        //[RegularExpression("^[A-Z0-9]+$", ErrorMessage = "Symbol must be uppercase letters and numbers only")]
         //public string Symbol { get; set; }
+
+        //[Range(0.0001, double.MaxValue, ErrorMessage = "Quantity must be greater than zero")]
         //public decimal Quantity { get; set; }
+
+        public string Symbol { get; set; }
+        public decimal Quantity { get; set; }
         //public decimal? Price { get; set; } // Detta kommer senare från API-integration
     }
 
