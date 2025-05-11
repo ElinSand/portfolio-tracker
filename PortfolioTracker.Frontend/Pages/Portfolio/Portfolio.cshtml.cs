@@ -1,16 +1,3 @@
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.AspNetCore.Mvc.RazorPages;
-
-//namespace PortfolioTracker.Frontend.Pages.Portfolio
-//{
-//    public class PortfolioModel : PageModel
-//    {
-//        public void OnGet()
-//        {
-//        }
-//    }
-//}
-
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;

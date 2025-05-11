@@ -81,6 +81,20 @@ namespace PortfolioTracker.API
             });
 
 
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowFrontend",
+                    policy => policy
+                        .WithOrigins("https://localhost:7006") // Frontend URL
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials());
+            });
+
+
+
+
             var app = builder.Build();
 
             // Middleware
@@ -89,6 +103,10 @@ namespace PortfolioTracker.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseRouting();
+            app.UseCors("AllowFrontend");
+
 
             app.UseAuthentication();
             app.UseAuthorization();

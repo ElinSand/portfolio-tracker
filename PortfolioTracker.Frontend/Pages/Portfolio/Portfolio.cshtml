@@ -3,10 +3,12 @@
 @{
 }
 
+@using System.Globalization
+
 <h1>Min Portfölj</h1>
 
-<h3>Saldo: @Model.Balance.ToString("C")</h3>
-<h3>Portföljvärde: @Model.PortfolioValue.ToString("C")</h3>
+<h3>Saldo: @Model.Balance.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</h3>
+<h3>Portföljvärde: @Model.PortfolioValue.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</h3>
 
 <h2>Innehav</h2>
 @if (Model.Holdings.Any())
@@ -26,8 +28,8 @@
             <tr>
                 <td>@holding.Symbol</td>
                 <td>@holding.Quantity</td>
-                <td>@holding.CurrentPrice.ToString("C")</td>
-                <td>@holding.TotalValue.ToString("C")</td>
+                    <td>@holding.CurrentPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+                    <td>@holding.TotalValue.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
             </tr>
         }
         </tbody>
@@ -58,7 +60,7 @@ else
                 <td>@transaction.Type</td>
                 <td>@transaction.Symbol</td>
                 <td>@transaction.Quantity</td>
-                <td>@transaction.PriceAtTransaction.ToString("C")</td>
+                    <td>@transaction.PriceAtTransaction.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
                 <td>@transaction.Timestamp.ToLocalTime()</td>
             </tr>
         }
