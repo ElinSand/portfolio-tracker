@@ -20,3 +20,150 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+
+/* Gör navbaren mörk */
+.navbar {
+    background-color: #1e1f24 !important;
+    border-bottom: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+    /* Ändra textfärg på navbar-länkar */
+    .navbar .nav-link,
+    .navbar .navbar-brand {
+        color: #f1f1f1 !important;
+    }
+
+        .navbar .nav-link:hover {
+            color: #fcd535 !important; /* gul hover som matchar knapparna */
+        }
+
+
+    .navbar .navbar-brand {
+        margin: 0 auto;
+        font-weight: 600;
+        font-size: 1.25rem;
+    }
+
+
+
+/* Grundfärger */
+body {
+    background-color: #111316;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Centrera kortet för login */
+.card {
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 400px;
+    margin: 5rem auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Inputfält */
+input.form-control {
+    background-color: #1a1a1a;
+    border: 1px solid #facc15;
+    color: #fff;
+}
+
+    input.form-control::placeholder {
+        color: #888;
+    }
+
+/* Gul primär knapp */
+.btn-primary {
+    background-color: #facc15;
+    border: none;
+    color: #111;
+    font-weight: bold;
+}
+
+    .btn-primary:hover {
+        background-color: #eab308;
+    }
+
+/* Länkar */
+a {
+    color: #facc15;
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+/* Felmeddelande */
+.validation-summary-errors {
+    color: #f87171;
+    margin-bottom: 1rem;
+}
+
+
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #12161C;
+}
+
+.login-box {
+    background-color: #1E2329;
+    padding: 2.5rem;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 420px;
+    color: #fff;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+}
+
+    .login-box h2 {
+        font-weight: 600;
+    }
+
+    .login-box label {
+        color: #ccc;
+        font-weight: 500;
+    }
+
+    .login-box input {
+        background-color: #F0F4F8;
+        border: 1px solid #fcd535;
+        border-radius: 6px;
+    }
+
+        .login-box input:focus {
+            border-color: #fcd535;
+            box-shadow: none;
+        }
+
+    .login-box button {
+        background-color: #fcd535;
+        border: none;
+        color: #000;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+        .login-box button:hover {
+            background-color: #e6c229;
+        }
+
+    .login-box a {
+        color: #fcd535;
+        text-decoration: none;
+    }
+
+        .login-box a:hover {
+            text-decoration: underline;
+        }
+

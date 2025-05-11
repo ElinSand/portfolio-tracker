@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Filter Test</title>
+    <meta charset="utf-8" />
+    <style>
+        .asset-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px;
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h2>Sök tillgångar</h2>
+    <input type="text" id="searchBox" placeholder="Sök symbol..." />
+
+    <div id="assetContainer">
+        <div class="asset-row">
+            <span><strong>BTC</strong></span>
+            <span>$97,307.14</span>
+        </div>
+        <div class="asset-row">
+            <span><strong>ETH</strong></span>
+            <span>$4,321.89</span>
+        </div>
+        <div class="asset-row">
+            <span><strong>ADA</strong></span>
+            <span>$0.42</span>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const input = document.getElementById("searchBox");
+            const rows = document.querySelectorAll("#assetContainer .asset-row");
+
+            input.addEventListener("input", function () {
+                const filter = input.value.toLowerCase();
+
+                rows.forEach(row => {
+                    const symbol = row.querySelector("span strong").textContent.toLowerCase();
+                    row.style.display = symbol.includes(filter) ? "" : "none";
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

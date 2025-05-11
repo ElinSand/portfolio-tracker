@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json.Linq;
 
 namespace PortfolioTracker.Frontend.Pages.Auth
 {
@@ -44,9 +45,18 @@ namespace PortfolioTracker.Frontend.Pages.Auth
             var responseContent = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<LoginResponse>(responseContent);
 
+
             // Spara token i Session
             HttpContext.Session.SetString("JWToken", result.Token);
             HttpContext.Session.SetString("UserEmail", Input.Email);
+
+
+            Response.Cookies.Append("JWToken", result.Token, new CookieOptions
+            {
+                HttpOnly = false, // Krävs för åtkomst via JavaScript
+                Secure = true,
+                SameSite = SameSiteMode.Strict
+            });
 
             return RedirectToPage("/Portfolio/Portfolio");
         }

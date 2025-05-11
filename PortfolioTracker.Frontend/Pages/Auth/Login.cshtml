@@ -3,29 +3,37 @@
 @{
     ViewData["Title"] = "Logga in";
 }
-<h2>Logga in</h2>
 
-<form method="post">
-    <div>
-        <label asp-for="Input.Email"></label>
-        <input asp-for="Input.Email" />
-        <span asp-validation-for="Input.Email" class="text-danger"></span>
+
+
+
+<div class="login-container">
+    <div class="login-box shadow">
+        <h2 class="text-center mb-4">Logga in</h2>
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">@Model.ErrorMessage</div>
+        }
+
+        <form method="post">
+            <div class="form-group mb-3">
+                <label for="Input_Email">E-post</label>
+                <input asp-for="Input.Email" class="form-control" placeholder="mejladress" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="Input_Password">Lösenord</label>
+                <input asp-for="Input.Password" type="password" class="form-control" placeholder="lösenord" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-warning w-100">Logga in</button>
+        </form>
+
+        <div class="text-center mt-3">
+            <a asp-page="/Auth/Register">Registrera dig</a>
+        </div>
     </div>
-
-    <div>
-        <label asp-for="Input.Password"></label>
-        <input asp-for="Input.Password" type="password" />
-        <span asp-validation-for="Input.Password" class="text-danger"></span>
-    </div>
-
-    <button type="submit">Logga in</button>
-</form>
-
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <p style="color:red">@Model.ErrorMessage</p>
-}
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+</div>

@@ -1,0 +1,49 @@
+﻿@model List<PortfolioTracker.Frontend.Models.Dto.AssetPriceDto>
+@{
+    var isLoggedIn = ViewData["IsLoggedIn"] as bool? ?? false;
+}
+@using System.Globalization
+
+<div class="card">
+    <div class="card-header bg-dark text-white">
+        Tillgängliga Kryptovalutor
+    </div>
+    <div class="card-body p-2">
+        <input class="form-control mb-2" placeholder="Sök symbol..." id="searchBox" />
+
+        <div id="assetContainer" style="max-height: 400px; overflow-y: auto;">
+            @foreach (var asset in Model)
+            {
+                <div class="asset-row d-flex justify-content-between align-items-center border-bottom py-1 px-2">
+                    <div><strong>@asset.Symbol</strong></div>
+                    <div>@asset.Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</div>
+                    <button class="btn btn-sm btn-success" onclick="handleBuyClick('@asset.Symbol', '@asset.Price')">Köp</button>
+                </div>
+            }
+        </div>
+
+      @*   <div id="buyFormContainer" class="mt-3" style="display: none;">
+            <div class="border p-3">
+                <h5>Köp <span id="selectedSymbol"></span></h5>
+                <input type="hidden" id="buySymbol" />
+                <div class="mb-2">
+                    <label for="buyQuantity">Antal:</label>
+                    <input type="number" class="form-control" id="buyQuantity" min="0.0001" step="0.0001" />
+                </div>
+                <div class="mb-2">
+                    <label>Totalpris:</label>
+                    <span id="totalPrice"></span>
+                </div>
+                <button class="btn btn-primary" onclick="submitBuy()">Bekräfta köp</button>
+            </div>
+        </div> *@
+
+        <div id="loginPrompt" class="mt-3 text-center text-warning" style="display:none;">
+            <p>Du måste vara inloggad för att genomföra ett köp.</p>
+            <a href="/Auth/Login" class="btn btn-warning">Logga in</a>
+        </div>
+    </div>
+</div>
+
+
+
