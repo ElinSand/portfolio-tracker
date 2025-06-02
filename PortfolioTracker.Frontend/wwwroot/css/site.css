@@ -1,4 +1,4 @@
-html {
+Ôªøhtml {
   font-size: 14px;
 }
 
@@ -23,14 +23,14 @@ body {
 
 
 
-/* Gˆr navbaren mˆrk */
+/* G√∂r navbaren m√∂rk */
 .navbar {
     background-color: #1e1f24 !important;
     border-bottom: none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-    /* ƒndra textf‰rg pÂ navbar-l‰nkar */
+    /* √Ñndra textf√§rg p√• navbar-l√§nkar */
     .navbar .nav-link,
     .navbar .navbar-brand {
         color: #f1f1f1 !important;
@@ -49,14 +49,14 @@ body {
 
 
 
-/* Grundf‰rger */
+/* Grundf√§rger */
 body {
     background-color: #111316;
     color: #ffffff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Centrera kortet fˆr login */
+/* Centrera kortet f√∂r login */
 .card {
     background-color: #1e1e1e;
     border: 1px solid #333;
@@ -67,7 +67,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Inputf‰lt */
+/* Inputf√§lt */
 input.form-control {
     background-color: #1a1a1a;
     border: 1px solid #facc15;
@@ -78,7 +78,7 @@ input.form-control {
         color: #888;
     }
 
-/* Gul prim‰r knapp */
+/* Gul prim√§r knapp */
 .btn-primary {
     background-color: #facc15;
     border: none;
@@ -90,7 +90,7 @@ input.form-control {
         background-color: #eab308;
     }
 
-/* L‰nkar */
+/* L√§nkar */
 a {
     color: #facc15;
     text-decoration: none;
@@ -167,3 +167,49 @@ a {
             text-decoration: underline;
         }
 
+
+
+.holdings-card {
+    max-width: none;
+}
+
+
+button.btn-success:disabled {
+    background-color: #6c757d !important; /* Bootstrap secondary gray */
+    border-color: #6c757d !important;
+    color: #ffffff !important;
+    cursor: not-allowed;
+    opacity: 1; /* Tar bort dim-effekten om jag vill ha mer tydlig gr√• */
+}
+
+
+
+
+/*Transaktioner Tabellen*/
+
+/* G√∂r s√• att bara tbody scrollas */
+.transactions-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    /* G√∂r thead synligt √∂ver scrollad tbody */
+    .transactions-table thead tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed; /* beh√•ll kolumnbredder */
+    }
+
+    /* G√∂r tbody block-format f√∂r scroll */
+    .transactions-table tbody {
+        display: block;
+        max-height: 300px; /* justera efter ~10 rader */
+        overflow-y: auto;
+    }
+
+        /* G√∂r att varje rad i tbody blir display: table-row */
+        .transactions-table tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed; /* samma kolumnlayout som thead */
+        }

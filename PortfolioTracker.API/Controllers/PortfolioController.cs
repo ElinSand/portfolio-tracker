@@ -36,7 +36,7 @@ namespace PortfolioTracker.API.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetPortfolio([FromServices] IBinanceService binanceService)
+        public async Task<IActionResult> GetPortfolio()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null) return Unauthorized();
@@ -53,7 +53,7 @@ namespace PortfolioTracker.API.Controllers
                 .Select(u => u.Balance)
                 .FirstOrDefaultAsync();
 
-            //Beräknar aktuellt värde på innehav
+            // Beräknar aktuellt värde på innehav
             var holdings = transactions
                 .Where(t => t.Type == "Buy")
                 .GroupBy(t => t.Symbol)
@@ -61,21 +61,25 @@ namespace PortfolioTracker.API.Controllers
                 {
                     Symbol = group.Key,
                     Quantity = group.Sum(t => t.Quantity) - transactions
-                        .Where(t => t.Type == "Sell" && t.Symbol == group.Key)
-                        .Sum(t => t.Quantity)
+                       .Where(t => t.Type == "Sell" && t.Symbol == group.Key)
+                       .Sum(t => t.Quantity),
+                        AverageBuyPrice = group.Sum(t => t.Quantity * t.PriceAtTransaction) / group.Sum(t => t.Quantity)
                 })
                 .Where(h => h.Quantity > 0)
                 .ToList();
+
 
             decimal totalPortfolioValue = 0;
             var detailedHoldings = new List<object>();
 
             foreach (var holding in holdings)
             {
-                var price = await binanceService.GetCryptoPrice(holding.Symbol);
+                var price = await _binanceService.GetCryptoPrice(holding.Symbol);
+                //try catch
                 if (price != null)
                 {
                     var value = holding.Quantity * price.Value;
+                    var changePercent = ((price.Value - holding.AverageBuyPrice) / holding.AverageBuyPrice) * 100; 
                     totalPortfolioValue += value;
 
                     detailedHoldings.Add(new
@@ -83,7 +87,9 @@ namespace PortfolioTracker.API.Controllers
                         holding.Symbol,
                         holding.Quantity,
                         CurrentPrice = price.Value,
-                        TotalValue = value
+                        TotalValue = value,
+                        AverageBuyPrice = holding.AverageBuyPrice, 
+                        ChangePercent = changePercent 
                     });
                 }
             }
@@ -109,7 +115,7 @@ namespace PortfolioTracker.API.Controllers
 
 
         [HttpPost("buy")]
-        public async Task<IActionResult> BuyAsset([FromBody] TradeModel model, [FromServices] IBinanceService binanceService)
+        public async Task<IActionResult> BuyAsset(TradeModel model, IBinanceService binanceService)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null)
@@ -126,10 +132,10 @@ namespace PortfolioTracker.API.Controllers
             }
 
             //Hämtar aktuellt pris från Binance API med loggning
-            var livePrice = await binanceService.GetCryptoPrice(model.Symbol);
-            if (livePrice == null)
+            var livePrice = await _binanceService.GetCryptoPrice(model.Symbol);
+            if (livePrice == null || livePrice.Value <= 0)
             {
-                _logger.LogWarning($"Failed to fetch price for {model.Symbol}");
+                _logger.LogWarning($"Failed to fetch price for {model.Symbol}: {livePrice}");
                 return BadRequest("Failed to fetch price from Binance.");
             }
 
@@ -156,7 +162,7 @@ namespace PortfolioTracker.API.Controllers
             _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation($"User {userId} bought {model.Quantity} {model.Symbol} at {livePrice.Value}. New balance: {user.Balance}");
+           // _logger.LogInformation($"User {userId} bought {model.Quantity} {model.Symbol} at {livePrice.Value}. New balance: {user.Balance}");
 
             return Ok(new
             {
@@ -172,7 +178,7 @@ namespace PortfolioTracker.API.Controllers
 
 
         [HttpPost("sell")]
-        public async Task<IActionResult> SellAsset([FromBody] TradeModel model, [FromServices] IBinanceService binanceService)
+        public async Task<IActionResult> SellAsset([FromBody] TradeModel model)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null)
@@ -189,7 +195,7 @@ namespace PortfolioTracker.API.Controllers
             }
 
             //Hämtar aktuellt pris från Binance API och loggar det
-            var livePrice = await binanceService.GetCryptoPrice(model.Symbol);
+            var livePrice = await _binanceService.GetCryptoPrice(model.Symbol);
             if (livePrice == null)
             {
                 _logger.LogWarning($"Failed to fetch price for {model.Symbol}");
@@ -247,7 +253,7 @@ namespace PortfolioTracker.API.Controllers
 
 
         [HttpGet("value")]
-        public async Task<IActionResult> GetPortfolioValue([FromServices] IBinanceService binanceService)
+        public async Task<IActionResult> GetPortfolioValue()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null) return Unauthorized();
@@ -277,7 +283,7 @@ namespace PortfolioTracker.API.Controllers
 
             foreach (var holding in holdings)
             {
-                var price = await binanceService.GetCryptoPrice(holding.Symbol);
+                var price = await _binanceService.GetCryptoPrice(holding.Symbol);
                 if (price != null)
                 {
                     var value = holding.Quantity * price.Value;
@@ -302,40 +308,10 @@ namespace PortfolioTracker.API.Controllers
         }
 
 
-        [HttpGet("assets/prices")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetPopularAssetsWithPrices()
-        {
-            var assets = new List<string> { "BTC", "ETH", "BNB", "ADA", "XRP", "SOL", "ADA", "LUNA" }; // Exempel på populära assets
-            var assetPrices = new Dictionary<string, decimal>();
 
-            foreach (var asset in assets)
-            {
-                var price = await _binanceService.GetCryptoPrice(asset);
-                if (price.HasValue)
-                {
-                    assetPrices[asset] = price.Value;
-                }
-            }
-
-            return Ok(assetPrices);
-        }
-
-
-        //Nytt
-
-        //[HttpGet("assets")]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> GetAvailableAssetPrices([FromServices] IBinanceService binanceService)
-        //{
-        //    var assets = await binanceService.GetAllAssetPricesAsync();
-        //    return Ok(assets);
-        //}
         [HttpGet("assets")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetAvailableAssetPrices(
-        [FromQuery] string? symbol,
-        [FromServices] IBinanceService binanceService)
+        public async Task<IActionResult> GetAvailableAssetPrices([FromQuery] string? symbol,IBinanceService binanceService)
         {
             var allAssets = await binanceService.GetAllAssetPricesAsync();
 
@@ -361,16 +337,10 @@ namespace PortfolioTracker.API.Controllers
     // DTO för köp/sälj
     public class TradeModel
     {
-        //[Required(ErrorMessage = "Symbol is required")]
-        //[RegularExpression("^[A-Z0-9]+$", ErrorMessage = "Symbol must be uppercase letters and numbers only")]
-        //public string Symbol { get; set; }
-
-        //[Range(0.0001, double.MaxValue, ErrorMessage = "Quantity must be greater than zero")]
-        //public decimal Quantity { get; set; }
 
         public string Symbol { get; set; }
         public decimal Quantity { get; set; }
-        //public decimal? Price { get; set; } // Detta kommer senare från API-integration
+       
     }
 
 }

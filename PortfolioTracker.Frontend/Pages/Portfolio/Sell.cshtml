@@ -1,0 +1,87 @@
+﻿@* @page
+@model PortfolioTracker.Frontend.Pages.Portfolio.SellModel
+@{
+} *@
+@page "/Portfolio/Sell"
+@model PortfolioTracker.Frontend.Pages.Portfolio.SellModel
+@{
+    ViewData["Title"] = "Sälj Innehav";
+}
+@using System.Globalization
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Vänster kolumn: innehav -->
+        <div class="col-md-7">
+            <div class="card holdings-card w-100">
+                <div class="card-header bg-dark text-white">
+                    Dina Innehav
+                </div>
+                <div class="card-body p-2">
+                    @if (Model.Holdings.Any())
+                    {
+                        <div id="holdingsContainer" style="max-height: 400px; overflow-y: auto;">
+                            @foreach (var holding in Model.Holdings)
+                            {
+                               @*  <div class="d-flex justify-content-between align-items-center border-bottom py-1 px-2">
+                                    <div><strong>@holding.Symbol</strong></div>
+                                    <div>@holding.Quantity</div>
+                                    <div>@holding.CurrentPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</div>
+                                    <button class="btn btn-danger btn-sm" onclick="handleSellClick('@holding.Symbol', @holding.CurrentPrice, @holding.Quantity)">Sälj</button>
+                                </div> *@
+
+                                //new
+                                <div class="d-flex justify-content-between align-items-center border-bottom py-1 px-2">
+                                    <div><strong>@holding.Symbol</strong></div>
+                                    <div>@holding.Quantity</div>
+                                    <div>@holding.CurrentPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</div>
+                                    <div>
+                                        @if (holding.ChangePercent >= 0)
+                                        {
+                                            <span class="text-success">+@holding.ChangePercent.ToString("0.00")%</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-danger">@holding.ChangePercent.ToString("0.00")%</span>
+                                        }
+                                    </div>
+                                    <button class="btn btn-danger btn-sm" onclick="handleSellClick('@holding.Symbol', @holding.CurrentPrice, @holding.Quantity)">Sälj</button>
+                                </div>
+
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p>Du har inga innehav att sälja.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Höger kolumn: sälj-formulär -->
+        <div class="col-md-5 d-flex align-items-start">
+            <div class="w-100" style="max-width: 400px">
+                <div class="card" id="sellFormCard" style="display: none;">
+                    <div class="card-body">
+                        <h5>Sälj <span id="sellSymbol"></span></h5>
+                        <input type="hidden" id="sellSymbolInput" />
+
+                        <div class="mb-2">
+                            <label for="sellQuantity">Antal:</label>
+                            <input type="number" class="form-control" id="sellQuantity" min="0.0001" step="0.0001" />
+                        </div>
+
+                        <div class="mb-2">
+                            <label>Totalt belopp:</label>
+                            <span id="sellTotalPrice"></span>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="submitSell()">Bekräfta Sälj</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
