@@ -1,73 +1,130 @@
 ﻿@page "/Portfolio"
 @model PortfolioTracker.Frontend.Pages.Portfolio.PortfolioModel
-@{
-}
-
 @using System.Globalization
 
-<h1>Min Portfölj</h1>
+<div class="container-fluid mt-4 px-4">
 
-<h3>Saldo: @Model.Balance.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</h3>
-<h3>Portföljvärde: @Model.PortfolioValue.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</h3>
+    <!-- Info cards -->
+    <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+            <div class="card info-card">
+                <div class="card-body">
+                    <h5 class="card-title">Saldo</h5>
+                    <p class="card-text display-6">
+                        @Model.Balance.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card info-card">
+                <div class="card-body">
+                    <h5 class="card-title">Portföljvärde</h5>
+                    <p class="card-text display-6">
+                        @Model.PortfolioValue.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<h2>Innehav</h2>
-@if (Model.Holdings.Any())
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Symbol</th>
-                <th>Antal</th>
-                <th>Aktuellt pris</th>
-                <th>Totalt värde</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var holding in Model.Holdings)
-        {
-            <tr>
-                <td>@holding.Symbol</td>
-                <td>@holding.Quantity</td>
-                    <td>@holding.CurrentPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
-                    <td>@holding.TotalValue.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>Inga innehav ännu.</p>
-}
+    <!-- Innehav -->
+    <div class="row mb-4">
+        <div class="card-header bg-dark text-white"><h3><strong>Innehav</strong></h3></div>
+        <div class="card-body p-0">
+            @if (Model.Holdings.Any())
+            {
+                <table class="table table-dark table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Symbol</th>
+                            <th>Antal</th>
+                            <th>Aktuellt pris</th>
+                            <th>Utveckling</th>
+                            <th>Totalt värde</th>
+                            <th>Totalkostnad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var h in Model.Holdings)
+                        {
+                            <tr>
+                                <td>@h.Symbol</td>
+                                <td>@h.Quantity</td>
+                                <td>@h.CurrentPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+                                <td>
+                                    @if (h.ChangePercent >= 0)
+                                    {
+                                        <span class="text-success">+@h.ChangePercent.ToString("0.00") %</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger">@h.ChangePercent.ToString("0.00") %</span>
+                                    }
+                                </td>
+                                <td>@h.TotalValue.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+                                <td>
+                                    @((h.Quantity * h.AverageBuyPrice).ToString("C", CultureInfo.CreateSpecificCulture("en-US")))
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="m-3">Inga innehav ännu.</p>
+            }
+        </div>
+    </div>
 
-<h2>Transaktioner</h2>
-@if (Model.Transactions.Any())
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Typ</th>
-                <th>Symbol</th>
-                <th>Antal</th>
-                <th>Pris</th>
-                <th>Tidpunkt</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var transaction in Model.Transactions)
-        {
-            <tr>
-                <td>@transaction.Type</td>
-                <td>@transaction.Symbol</td>
-                <td>@transaction.Quantity</td>
-                    <td>@transaction.PriceAtTransaction.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
-                <td>@transaction.Timestamp.ToLocalTime()</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>Inga transaktioner ännu.</p>
-}
+
+
+
+    <!-- Transaktioner -->
+    <div class="row mb-5">
+        <div class="card-header bg-dark text-white"><h3><strong>Transaktioner</strong></h3></div>
+        <div class="card-body p-0">
+            @if (Model.Transactions.Any())
+            {
+                <table class="table table-dark table-hover mb-0 transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Typ</th>
+                            <th>Symbol</th>
+                            <th>Antal</th>
+                            <th>Pris</th>
+                            <th>Kostnad</th>
+                            <th>Tidpunkt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var t in Model.Transactions)
+                        {
+                            <tr>
+                                <td>@t.Type</td>
+                                <td>@t.Symbol</td>
+                                <td>@t.Quantity</td>
+                                <td>@t.PriceAtTransaction.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+                                <td>
+                                    @((t.Quantity * t.PriceAtTransaction).ToString("C", CultureInfo.CreateSpecificCulture("en-US")))
+                                </td>
+                                <td>@t.Timestamp.ToLocalTime().ToString("g")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="m-3">Inga transaktioner ännu.</p>
+            }
+        </div>
+    </div>
+
+</div>
+
+
+
+
+

@@ -76,8 +76,8 @@ namespace PortfolioTracker.Frontend.Pages.Auth
         {
             [JsonProperty("token")]
             public string Token { get; set; }
+            
         }
     }
+
 }
-
-

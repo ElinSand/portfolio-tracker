@@ -7,7 +7,7 @@ namespace PortfolioTracker.API.Services
     {
         Task<decimal?> GetCryptoPrice(string symbol);
         Task<List<string>> GetAvailableAssetsAsync();
-        Task<List<AssetPriceDto>> GetAllAssetPricesAsync(); //Nytt
+        Task<List<AssetPriceDto>> GetAllAssetPricesAsync(); 
 
     }
 }

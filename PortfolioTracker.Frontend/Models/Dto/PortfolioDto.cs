@@ -16,6 +16,9 @@ namespace PortfolioTracker.Frontend.Models.Dto
         public decimal Quantity { get; set; }
         public decimal CurrentPrice { get; set; }
         public decimal TotalValue { get; set; }
+
+        public decimal AverageBuyPrice { get; set; } 
+        public decimal ChangePercent { get; set; }   
     }
 
     public class Transaction
