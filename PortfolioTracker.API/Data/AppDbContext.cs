@@ -39,7 +39,7 @@ namespace PortfolioTracker.API.Data
 
             modelBuilder.Entity<Transaction>()
                 .Property(t => t.PriceAtTransaction)
-                .HasPrecision(18, 2);
+                .HasPrecision(18, 8);
 
             modelBuilder.Entity<Transaction>()
                 .Property(t => t.Quantity)

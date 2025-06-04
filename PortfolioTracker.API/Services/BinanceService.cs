@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Globalization;
+using PortfolioTracker.API.Services;
 
 namespace PortfolioTracker.API.Services
 {
@@ -19,7 +20,7 @@ namespace PortfolioTracker.API.Services
 
         private const string BinancePriceUrl = "https://api.binance.com/api/v3/ticker/price?symbol=";
         private const string BinanceExchangeInfoUrl = "https://api.binance.com/api/v3/exchangeInfo";
-        private const string BinanceAllPricesUrl = "https://api.binance.com/api/v3/ticker/price"; //nytt
+        private const string BinanceAllPricesUrl = "https://api.binance.com/api/v3/ticker/price"; 
 
 
         public BinanceService(HttpClient httpClient, ILogger<BinanceService> logger)
@@ -88,7 +89,7 @@ namespace PortfolioTracker.API.Services
             }
         }
 
-        //Nytt
+        
         public async Task<List<AssetPriceDto>> GetAllAssetPricesAsync()
         {
             try
@@ -108,6 +109,7 @@ namespace PortfolioTracker.API.Services
                         Symbol = p.Symbol.Replace("USDT", ""),
                         Price = decimal.Parse(p.Price, CultureInfo.InvariantCulture)
                     })
+                    .Where(dto => dto.Price > 0m)   //nytt
                     .ToList();
 
 
@@ -139,13 +141,6 @@ namespace PortfolioTracker.API.Services
         [JsonProperty("price")]
         public string Price { get; set; }
     }
-    
-    public class AssetPriceDto
-    {
-        public string Symbol { get; set; }
-        public decimal Price { get; set; }
-    }
-
 
 }
 
