@@ -44,6 +44,7 @@ namespace PortfolioTracker.API
             });
 
             builder.Services.AddHttpClient<IBinanceService, BinanceService>();
+            builder.Services.AddScoped<IPortfolioService, PortfolioService>();
 
 
             // Add Controllers & Swagger

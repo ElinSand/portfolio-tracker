@@ -51,7 +51,7 @@
                             <tr>
                                 <td>@h.Symbol</td>
                                 <td>@h.Quantity</td>
-                                <td>@h.CurrentPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+                                <td>@h.CurrentPrice.ToString("C4", CultureInfo.CreateSpecificCulture("en-US"))</td>
                                 <td>
                                     @if (h.ChangePercent >= 0)
                                     {
@@ -62,9 +62,9 @@
                                         <span class="text-danger">@h.ChangePercent.ToString("0.00") %</span>
                                     }
                                 </td>
-                                <td>@h.TotalValue.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+                                <td>@h.TotalValue.ToString("C4", CultureInfo.CreateSpecificCulture("en-US"))</td>
                                 <td>
-                                    @((h.Quantity * h.AverageBuyPrice).ToString("C", CultureInfo.CreateSpecificCulture("en-US")))
+                                    @((h.Quantity * h.AverageBuyPrice).ToString("C4", CultureInfo.CreateSpecificCulture("en-US")))
                                 </td>
                             </tr>
                         }
@@ -105,9 +105,9 @@
                                 <td>@t.Type</td>
                                 <td>@t.Symbol</td>
                                 <td>@t.Quantity</td>
-                                <td>@t.PriceAtTransaction.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</td>
+                                <td>@t.PriceAtTransaction.ToString("C4", CultureInfo.CreateSpecificCulture("en-US"))</td>
                                 <td>
-                                    @((t.Quantity * t.PriceAtTransaction).ToString("C", CultureInfo.CreateSpecificCulture("en-US")))
+                                    @((t.Quantity * t.PriceAtTransaction).ToString("C4", CultureInfo.CreateSpecificCulture("en-US")))
                                 </td>
                                 <td>@t.Timestamp.ToLocalTime().ToString("g")</td>
                             </tr>

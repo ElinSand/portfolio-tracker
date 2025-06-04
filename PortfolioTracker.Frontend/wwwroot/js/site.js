@@ -55,7 +55,57 @@ function getCookie(name) {
 
 
 
+//Submit Buy
+//async function submitBuy() {
+//    const symbol = document.getElementById("buySymbol").value;
+//    const quantity = parseFloat(document.getElementById("buyQuantity").value);
 
+//    if (!symbol || isNaN(quantity) || quantity <= 0) {
+//        alert("Ange ett giltigt antal");
+//        return;
+//    }
+
+//    //const jwt = sessionStorage.getItem("JWToken");
+//    //if (!jwt) {
+//    //    alert("Ingen token hittades. Logga in igen.");
+//    //    return;
+//    //}
+//    const jwt = getCookie("JWToken");
+//    if (!jwt) {
+//        alert("Ingen token hittades. Logga in igen.");
+//        return;
+//    }
+
+//    try {
+//        const response = await fetch("https://localhost:7293/api/portfolio/buy", {
+//            method: "POST",
+//            headers: {
+//                "Content-Type": "application/json",
+//                "Authorization": `Bearer ${jwt}`
+//            },
+//            body: JSON.stringify({
+//                symbol: symbol,
+//                quantity: quantity
+//            })
+//        });
+
+//        const result = await response.json();
+
+//        if (response.ok) {
+//            alert(`✅ Köpet lyckades!\n${result.quantity} ${result.symbol} för ${result.totalCost} USD\nNytt saldo: ${result.newBalance}`);
+//            document.getElementById("buyFormContainer").style.display = "none";
+//        } else {
+//            alert(`❌ Misslyckat köp: ${result}`);
+//        }
+//    } catch (err) {
+//        console.error("Fel vid köp:", err);
+//        alert("❌ Ett fel uppstod. Försök igen.");
+//    }
+//}
+
+
+
+//Submit Buy
 async function submitBuy() {
     const symbol = document.getElementById("buySymbol").value;
     const quantity = parseFloat(document.getElementById("buyQuantity").value);
@@ -65,11 +115,6 @@ async function submitBuy() {
         return;
     }
 
-    //const jwt = sessionStorage.getItem("JWToken");
-    //if (!jwt) {
-    //    alert("Ingen token hittades. Logga in igen.");
-    //    return;
-    //}
     const jwt = getCookie("JWToken");
     if (!jwt) {
         alert("Ingen token hittades. Logga in igen.");
@@ -77,6 +122,7 @@ async function submitBuy() {
     }
 
     try {
+        // 1) POST mot buy-endpoint
         const response = await fetch("https://localhost:7293/api/portfolio/buy", {
             method: "POST",
             headers: {
@@ -92,10 +138,46 @@ async function submitBuy() {
         const result = await response.json();
 
         if (response.ok) {
-            alert(`✅ Köpet lyckades!\n${result.quantity} ${result.symbol} för ${result.totalCost} USD\nNytt saldo: ${result.newBalance}`);
+            // Köpet lyckades – plocka ut resultatdetaljer
+            const boughtQty = result.quantity;
+            const boughtSymbol = result.symbol;
+            const totalCost = result.totalCost; // ex. det belopp som dragits från saldot
+
+            // 2) Hämta uppdaterat saldo från /api/portfolio/value
+            const valueResponse = await fetch("https://localhost:7293/api/portfolio/value", {
+                headers: {
+                    "Authorization": `Bearer ${jwt}`
+                }
+            });
+
+            if (!valueResponse.ok) {
+                // Lyckades inte hämta saldo, men köp var ok
+                alert(
+                    `✅ Köpet lyckades!\n` +
+                    `${boughtQty} ${boughtSymbol} för ${totalCost} USD\n` +
+                    `Misslyckades att hämta uppdaterat saldo.`
+                );
+                document.getElementById("buyFormContainer").style.display = "none";
+                return;
+            }
+
+            // Om GET /value returnerar JSON, t.ex. { "balance": 1234.56, "portfolioValue": ... }
+            const valueResult = await valueResponse.json();
+            const newBalance = valueResult.balance;
+
+            alert(
+                `✅ Köpet lyckades!\n` +
+                `${boughtQty} ${boughtSymbol} för ${totalCost} USD\n` +
+                `Nytt saldo: ${newBalance} USD`
+            );
             document.getElementById("buyFormContainer").style.display = "none";
         } else {
-            alert(`❌ Misslyckat köp: ${result}`);
+            // Köpet misslyckades (t.ex. "Insufficient balance." eller annan validering)
+            const errMsg = typeof result === "string"
+                ? result
+                : result.message ?? JSON.stringify(result);
+
+            alert(`❌ Misslyckat köp: ${errMsg}`);
         }
     } catch (err) {
         console.error("Fel vid köp:", err);
@@ -130,6 +212,49 @@ function handleSellClick(symbol, price, ownedQuantity) {
 }
 
 //Submit Sell
+//async function submitSell() {
+//    const symbol = document.getElementById("sellSymbolInput").value;
+//    const quantity = parseFloat(document.getElementById("sellQuantity").value);
+
+//    if (!symbol || isNaN(quantity) || quantity <= 0) {
+//        alert("Ange ett giltigt antal att sälja");
+//        return;
+//    }
+
+//    const jwt = getCookie("JWToken");
+//    if (!jwt) {
+//        alert("Ingen token hittades. Logga in igen.");
+//        return;
+//    }
+
+//    try {
+//        const response = await fetch("https://localhost:7293/api/portfolio/sell", {
+//            method: "POST",
+//            headers: {
+//                "Content-Type": "application/json",
+//                "Authorization": `Bearer ${jwt}`
+//            },
+//            body: JSON.stringify({ symbol: symbol, quantity: quantity })
+//        });
+
+//        const result = await response.json();
+
+//        if (response.ok) {
+//            alert(`✅ Försäljningen lyckades!\n${result.quantity} ${result.symbol} för ${result.totalRevenue} USD\nNytt saldo: ${result.newBalance}`);
+//            document.getElementById("sellFormCard").style.display = "none";
+//            window.location.reload();
+//        } else {
+//            alert(`❌ Misslyckad försäljning: ${result}`);
+//        }
+//    } catch (err) {
+//        console.error("Fel vid försäljning:", err);
+//        alert("❌ Ett fel uppstod. Försök igen.");
+//    }
+//}
+
+
+
+//Submit Sell
 async function submitSell() {
     const symbol = document.getElementById("sellSymbolInput").value;
     const quantity = parseFloat(document.getElementById("sellQuantity").value);
@@ -146,6 +271,7 @@ async function submitSell() {
     }
 
     try {
+        // 1) POST mot sell-endpoint
         const response = await fetch("https://localhost:7293/api/portfolio/sell", {
             method: "POST",
             headers: {
@@ -155,20 +281,67 @@ async function submitSell() {
             body: JSON.stringify({ symbol: symbol, quantity: quantity })
         });
 
+        // Läs ut JSON‐body (både vid OK och vid fel)
         const result = await response.json();
 
         if (response.ok) {
-            alert(`✅ Försäljningen lyckades!\n${result.quantity} ${result.symbol} för ${result.totalRevenue} USD\nNytt saldo: ${result.newBalance}`);
+            // Försäljningen gick igenom. Visa detaljinfo om transaktionen:
+            // I result kan t.ex. finnas:
+            //   result.symbol, result.quantity, result.totalCost (från TransactionDto).
+            const soldQty = result.quantity;
+            const soldSymbol = result.symbol;
+            const soldTotal = result.totalCost; // eller result.totalRevenue beroende på vad du returnerar
+
+            // 2) Hämta uppdaterat saldo
+            const valueResponse = await fetch("https://localhost:7293/api/portfolio/value", {
+                headers: {
+                    "Authorization": `Bearer ${jwt}`
+                }
+            });
+
+            if (!valueResponse.ok) {
+                // Om det gick fel att hämta saldo, visa ändå försäljningsinfo
+                alert(
+                    `✅ Försäljningen lyckades!\n` +
+                    `${soldQty} ${soldSymbol} för ${soldTotal} USDT\n` +
+                    `Men kunde inte hämta uppdaterat saldo.`
+                );
+                document.getElementById("sellFormCard").style.display = "none";
+                return;
+            }
+
+            // Om GET /portfolio/value returnerar JSON, exempelvis:
+            // { "balance": 1234.56, "portfolioValue": 7890.12, "holdings": [...] }
+            const valueResult = await valueResponse.json();
+            const newBalance = valueResult.balance;
+
+            alert(
+                `✅ Försäljningen lyckades!\n` +
+                `${soldQty} ${soldSymbol} för ${soldTotal} USD\n` +
+                `Nytt saldo: ${newBalance} USD`
+            );
+
             document.getElementById("sellFormCard").style.display = "none";
             window.location.reload();
         } else {
-            alert(`❌ Misslyckad försäljning: ${result}`);
+            //        Fel vid försäljning (t.ex. ”Not enough shares to sell.”)
+            // Ta reda på om result är en sträng eller ett objekt { message: … }
+            const errMsg = typeof result === "string"
+                ? result
+                : result.message ?? JSON.stringify(result);
+
+            alert(`❌ Misslyckad försäljning: ${errMsg}`);
         }
     } catch (err) {
         console.error("Fel vid försäljning:", err);
         alert("❌ Ett fel uppstod. Försök igen.");
     }
 }
+
+
+
+
+
 
 //Get JWT from Cookie
 function getCookie(name) {

@@ -1,8 +1,4 @@
-﻿@* @page
-@model PortfolioTracker.Frontend.Pages.Portfolio.SellModel
-@{
-} *@
-@page "/Portfolio/Sell"
+﻿@page "/Portfolio/Sell"
 @model PortfolioTracker.Frontend.Pages.Portfolio.SellModel
 @{
     ViewData["Title"] = "Sälj Innehav";
@@ -15,41 +11,53 @@
         <div class="col-md-7">
             <div class="card holdings-card w-100">
                 <div class="card-header bg-dark text-white">
-                    Dina Innehav
+                    <h4>
+                        Dina Innehav
+                    </h4>
                 </div>
                 <div class="card-body p-2">
                     @if (Model.Holdings.Any())
                     {
-                        <div id="holdingsContainer" style="max-height: 400px; overflow-y: auto;">
-                            @foreach (var holding in Model.Holdings)
-                            {
-                               @*  <div class="d-flex justify-content-between align-items-center border-bottom py-1 px-2">
-                                    <div><strong>@holding.Symbol</strong></div>
-                                    <div>@holding.Quantity</div>
-                                    <div>@holding.CurrentPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</div>
-                                    <button class="btn btn-danger btn-sm" onclick="handleSellClick('@holding.Symbol', @holding.CurrentPrice, @holding.Quantity)">Sälj</button>
-                                </div> *@
-
-                                //new
-                                <div class="d-flex justify-content-between align-items-center border-bottom py-1 px-2">
-                                    <div><strong>@holding.Symbol</strong></div>
-                                    <div>@holding.Quantity</div>
-                                    <div>@holding.CurrentPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</div>
-                                    <div>
-                                        @if (holding.ChangePercent >= 0)
-                                        {
-                                            <span class="text-success">+@holding.ChangePercent.ToString("0.00")%</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-danger">@holding.ChangePercent.ToString("0.00")%</span>
-                                        }
-                                    </div>
-                                    <button class="btn btn-danger btn-sm" onclick="handleSellClick('@holding.Symbol', @holding.CurrentPrice, @holding.Quantity)">Sälj</button>
-                                </div>
-
-                            }
+                        <div style="overflow-x: auto; max-height: 400px; overflow-y: auto;">
+                            <table class="table table-dark table-striped mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Symbol</th>
+                                        <th>Antal</th>
+                                        <th>Aktuellt pris</th>
+                                        <th>Utveckling</th>
+                                        <th></th> 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var holding in Model.Holdings)
+                                    {
+                                        <tr>
+                                            <td>@holding.Symbol</td>
+                                            <td>@holding.Quantity.ToString("N4", CultureInfo.InvariantCulture)</td>
+                                            <td>@holding.CurrentPrice.ToString("C4", CultureInfo.CreateSpecificCulture("en-US"))</td>
+                                            <td>
+                                                @if (holding.ChangePercent >= 0)
+                                                {
+                                                    <span class="text-success">+@holding.ChangePercent.ToString("0.00", CultureInfo.InvariantCulture) %</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="text-danger">@holding.ChangePercent.ToString("0.00", CultureInfo.InvariantCulture) %</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger btn-sm"
+                                                        onclick="handleSellClick('@holding.Symbol', '@holding.CurrentPrice', @holding.Quantity)">
+                                                    Sälj
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
+
                     }
                     else
                     {

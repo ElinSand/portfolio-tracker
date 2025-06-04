@@ -16,7 +16,7 @@
             {
                 <div class="asset-row d-flex justify-content-between align-items-center border-bottom py-1 px-2">
                     <div><strong>@asset.Symbol</strong></div>
-                    <div>@asset.Price.ToString("C", CultureInfo.CreateSpecificCulture("en-US"))</div>
+                    <div>@asset.Price.ToString("C4", CultureInfo.CreateSpecificCulture("en-US"))</div>
                     <button class="btn btn-sm btn-success"
                     @(asset.Price <= 0 ? "disabled" : "")
                             onclick="handleBuyClick('@asset.Symbol', @asset.Price.ToString(System.Globalization.CultureInfo.InvariantCulture))">
