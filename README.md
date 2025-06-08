@@ -84,7 +84,8 @@ portfolio value, percentage change per holding, and a complete transaction histo
 -	**Token Refresh:** Implement refresh tokens with shorter‐lived access tokens for improved security.
 
 ________________________________________
-Contact 
+Contact  
+
 Name: Elin Sand  
 GitHub: GitHub  
 
