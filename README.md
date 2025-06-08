@@ -5,21 +5,21 @@ cryptocurrencies at real-time prices fetched from the Binance API. The app displ
 portfolio value, percentage change per holding, and a complete transaction history.
 
 ### Features
-1.	**User Management & Authentication**
-o	**Registration** (email + password) using ASP.NET Identity.
-o	**Login** issues a JWT stored in an HttpOnly cookie.
-o	**Role-based authorization** ensures all portfolio endpoints require a valid token ([Authorize]).
+1.	**User Management & Authentication**  
+-	**Registration** (email + password) using ASP.NET Identity.  
+-	**Login** issues a JWT stored in an HttpOnly cookie.
+-	**Role-based authorization** ensures all portfolio endpoints require a valid token ([Authorize]).
 
 2.	**Portfolio & Transactions**
-o	Starting balance: $10,000.
-o	Buy/Sell functionality for USDT trading pairs.
-o	Automatic computation of holdings (net quantity), average buy price, and live price.
-o	Real-time prices fetched from Binance (single‐symbol lookups or all‐prices endpoint).
-o	**Display:**
-	Balance
-	Portfolio Value (sum of all holding values)
-	Holdings Table: symbol | quantity | current price | % change | total value | total cost
-	Transaction History: each buy/sell with timestamp, quantity, price, and total amount.
+-	Starting balance: $10,000.
+-	Buy/Sell functionality for USDT trading pairs.
+-	Automatic computation of holdings (net quantity), average buy price, and live price.
+-	Real-time prices fetched from Binance (single‐symbol lookups or all‐prices endpoint).
+-	**Display:**
++	**Balance**
++	**Portfolio Value** (sum of all holding values)
++	**Holdings Table:** symbol | quantity | current price | % change | total value | total cost
++	Transaction History: each buy/sell with timestamp, quantity, price, and total amount.
 
 3.	**Backend Architecture**
 o	**Domain:** Core business logic and models (ApplicationUser, Transaction, CostBasisCalculator).
