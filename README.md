@@ -84,13 +84,12 @@ portfolio value, percentage change per holding, and a complete transaction histo
 -	**Token Refresh:** Implement refresh tokens with shorter‐lived access tokens for improved security.
 
 ________________________________________
-Contact  
-
-Feel free to reach out if you have any questions or need further support!
+Contact 
 Name: Elin Sand  
-
 GitHub: GitHub  
 
+Feel free to reach out if you have any questions or need further support!
+   
 Thank you for checking out PortfolioTracker!
 
 
